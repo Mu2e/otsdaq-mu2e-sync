@@ -1,4 +1,4 @@
-# otsdaq-mu2e-synctest
+# otsdaq-mu2e-sync
 
 This package is a part of the Mu2e TDAQ Suite
 
