@@ -10,7 +10,7 @@ cmake_minimum_required (VERSION 3.19 FATAL_ERROR)
 
 find_package(cetmodules 3.16.00 REQUIRED)
 
-project(otsdaq-mu2e-sync VERSION 1.00.00)
+project(otsdaq-mu2e-sync VERSION 6.00.00)
 
 include(CetCMakeEnv)
 cet_cmake_env()
@@ -70,18 +70,32 @@ endif()
 # these are minimum required versions, not the actual product versions
 find_package(otsdaq-mu2e 1.02.00 REQUIRED)
 
+#find_package(art_root_io 1.10.01 REQUIRED)
+
 # Mu2e Offline Extra setup
 find_package(Offline v11_00_00 REQUIRED)
 include_directories($ENV{BTRK_INC} $ENV{KINKAL_INC})
 link_directories($ENV{BTRK_LIB} $ENV{KINKAL_LIB})
 
-# XDAQ Extra setup
-include_directories($ENV{XDAQ_ROOT}/include/linux $ENV{XDAQ_ROOT}/include)
+ # XDAQ Extra setup
+ include_directories($ENV{XDAQ_ROOT}/include/linux $ENV{XDAQ_ROOT}/include)
 link_directories($ENV{XDAQ_ROOT}/lib)
+
 
 include(BuildPlugins)
 
 # Code
 add_subdirectory(otsdaq-mu2e-sync)
+
+# Useful scripts
+add_subdirectory(tools)
+
+# Test Programs
+add_subdirectory(test)
+
+# Documentation directory
+#add_subdirectory(doc)
+
+install(DIRECTORY test DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/otsdaq-mu2e-sync)
 
 cet_cmake_config()
