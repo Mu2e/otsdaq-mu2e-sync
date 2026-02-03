@@ -1,4 +1,8 @@
 *~
+*.log
+*.save
+*.tmp
+*.hist
 \#*\#
 core.*
 *.vcxproj*
