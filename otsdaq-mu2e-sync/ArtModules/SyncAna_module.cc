@@ -61,6 +61,7 @@ namespace ots
     struct Hist_t {
       TH1* nhits;
       TH1* delta_t;
+      TH1* delta_t_min;
       TH1* delta_t_prev;
     };
 
@@ -104,8 +105,9 @@ void ots::SyncAna::bookHistograms(const int index) {
   // Create the histograms of interest
   art::TFileDirectory dir = tfs_->mkdir(std::format("hist_{}", index));
   Hist_t* Hist = hist_[index];
-  Hist->nhits   = dir.make<TH1D>("nhits"  , "N(MTP hits)"           ,   50,    0,    50);
-  Hist->delta_t = dir.make<TH1F>("delta_t", "#Deltat (ns)"          ,  300,  -50,    250);
+  Hist->nhits        = dir.make<TH1D>("nhits"  , "N(MTP hits)"           ,   50,    0,    50);
+  Hist->delta_t      = dir.make<TH1F>("delta_t", "#Deltat (ns)"          ,  300,  -50,    250);
+  Hist->delta_t_min  = dir.make<TH1F>("delta_t_min", "min #Deltat (ns)"          ,  100,  -50,    50);
   Hist->delta_t_prev = dir.make<TH1F>("delta_t_prev", "#Deltat (us)",  10000,  0., 5.e6);
 
 }
@@ -117,7 +119,7 @@ void ots::SyncAna::fillHistograms(const int index) {
 
   constexpr double time_evt = 1.e5;
   double deltaT = 0.0, time_prev(prev_hit_time_ - evt_since_last_hit_*time_evt);
-  for (size_t i=0; i<mtpHits_->size(); i++) {
+  for(size_t i = 0; i < mtpHits_->size(); i++) {
     const double time = mtpHits_->at(i).time();
     if(i > 0) {
       deltaT = time - time_prev; // - 10000.;
@@ -126,6 +128,18 @@ void ots::SyncAna::fillHistograms(const int index) {
       Hist->delta_t_prev->Fill((time - time_prev)/1000.); // fill in us
     }
     time_prev = time;
+
+    // look for the minimum delta T in the event
+    double min_deltaT(-1.), time_min(0.);
+    for(size_t j = i+1; j < mtpHits_->size(); j++) {
+      const double time_j = mtpHits_->at(j).time();
+      const double dt     = std::abs(time - time_j);
+      if(min_deltaT < 0. || dt < min_deltaT) {
+        min_deltaT = dt;
+        time_min   = time_j;
+      }
+    }
+    if(min_deltaT >= 0. && min_deltaT < 1000.) Hist->delta_t_min->Fill(time - time_min);
   }
 }
 
