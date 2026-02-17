@@ -163,35 +163,19 @@ try
 	writeRegister(0, 0);
 	usleep(500000);
 
-	// // disable PRBS7 generator & error checker -- For fiber testing, no longer used
-	// writeRegister(49, 0);
-	// usleep(100000);
+	// algo reset
+        writeRegister(46, 1);
 
-	// reset ROC Mon blocks (enables packet sender)
-	readRegister(43);
+        // enable loopback delay and set value
+        writeRegister(45, 1); // enable delay
+        writeRegister(21, 0); // delay zero for now
 
-	// check reset is done, register 0x0 is debug register
-	readRegister(0);
+        // pulse injection mode by default
+        writeRegister(51, 0); // 0 = pulse injection, 1 = cosmic run, 2 = internal pulser, 3 = none
 
 	// event start and loopback delay
 	writeRegister(21, 0);
 	usleep(100000);
-
-	// Event start and loopback delay enable
-	writeRegister(45, 1);
-	usleep(100000);
-	// check reset is done, register 0x0 is debug register
-	readRegister(1);
-
-	// writeRegister(22, 1);  // DCS alignment request  (reset histograms in FD)
-	readRegister(44);  // reset loopback counters and histograms
-	usleep(100000);
-	// check reset is done, register 0x0 is debug register
-	readRegister(2);
-	usleep(100000);
-
-	// reset FSM and FIFOs for timestamping
-	readRegister(36);
 
 	//    int myTemp = GetTemperature(1);
 	// 	__COUTV__(myTemp);
