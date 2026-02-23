@@ -3,11 +3,9 @@
 
 #include "otsdaq-mu2e/FEInterfaces/ROCPolarFireCoreInterface.h"
 
-namespace ots
-{
-class ROCMobileSyncInterface : public ROCPolarFireCoreInterface
-{
-	// clang-format off
+namespace ots {
+class ROCMobileSyncInterface : public ROCPolarFireCoreInterface {
+  // clang-format off
   public:
     ROCMobileSyncInterface(const std::string&       rocUID,
 			    const ConfigurationTree& theXDAQContextConfigTree,
@@ -90,9 +88,9 @@ class ROCMobileSyncInterface : public ROCPolarFireCoreInterface
             }
     })";
 
-	// clang-format on
+  // clang-format on
 };
 
-}  // namespace ots
+} // namespace ots
 
 #endif

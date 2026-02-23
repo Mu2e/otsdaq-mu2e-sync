@@ -15,6 +15,6 @@ cet_build_plugin(ROCMobileSyncInterface
   otsdaq-mu2e::ROCPolarFireCoreInterface
   otsdaq::Macros
   )
- 
+
 install_headers()
 install_source()
