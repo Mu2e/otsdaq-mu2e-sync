@@ -70,15 +70,6 @@ endif()
 # these are minimum required versions, not the actual product versions
 find_package(otsdaq-mu2e 1.02.00 REQUIRED)
 
-# Mu2e Offline Extra setup
-find_package(Offline v11_00_00 REQUIRED)
-include_directories($ENV{BTRK_INC} $ENV{KINKAL_INC})
-link_directories($ENV{BTRK_LIB} $ENV{KINKAL_LIB})
-
-# XDAQ Extra setup
-include_directories($ENV{XDAQ_ROOT}/include/linux $ENV{XDAQ_ROOT}/include)
-link_directories($ENV{XDAQ_ROOT}/lib)
-
 include(BuildPlugins)
 
 # Code
