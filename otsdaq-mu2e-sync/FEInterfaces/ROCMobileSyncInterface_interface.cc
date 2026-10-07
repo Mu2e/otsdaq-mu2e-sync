@@ -309,7 +309,10 @@ void ROCMobileSyncInterface::ResetHistograms(__ARGS__) {
 void ROCMobileSyncInterface::Reset(__ARGS__) { reset(); }
 
 //======================================================================================================
-void ROCMobileSyncInterface::start(std::string) { reset(); }
+void ROCMobileSyncInterface::start(std::string) {
+  reset();
+  usleep(500000);
+}
 
 //======================================================================================================
 void ROCMobileSyncInterface::SelectiveReset(__ARGS__) {
