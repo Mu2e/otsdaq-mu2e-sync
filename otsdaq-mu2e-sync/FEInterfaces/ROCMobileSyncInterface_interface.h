@@ -39,7 +39,7 @@ class ROCMobileSyncInterface : public ROCPolarFireCoreInterface {
     void ReadTxFIFO                 (__ARGS__);
 
     void reset();
-  
+
     std::string readBuffer(uint32_t loc_addr);
     std::array<std::string, 4> ReadMarkerHistograms(void);
     std::vector<uint16_t> readHistogram(std::vector<DTCLib::roc_data_t>& histAddrs, uint32_t loc_addr, std::stringstream& outss);
