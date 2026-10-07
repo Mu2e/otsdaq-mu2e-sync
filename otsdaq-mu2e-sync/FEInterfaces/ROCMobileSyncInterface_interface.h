@@ -23,7 +23,7 @@ class ROCMobileSyncInterface : public ROCPolarFireCoreInterface {
     //void 								halt						(void) override;
     //void 								pause						(void) override;
     //void 								resume						(void) override;
-    //void 								start						(std::string runNumber) override;
+    void 								start						(std::string runNumber) override;
     //void 								stop						(void) override;
     bool 								running		                (void) override;
 
@@ -37,6 +37,8 @@ class ROCMobileSyncInterface : public ROCPolarFireCoreInterface {
     void BERT                       (__ARGS__);
     void ReadRxFIFO                 (__ARGS__);
     void ReadTxFIFO                 (__ARGS__);
+
+    void reset();
 
     std::string readBuffer(uint32_t loc_addr);
     std::array<std::string, 4> ReadMarkerHistograms(void);

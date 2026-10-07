@@ -154,8 +154,8 @@ void ROCMobileSyncInterface::configure(void) try {
   writeRegister(45, 1); // enable delay
   writeRegister(21, 0); // delay zero for now
 
-  // pulse injection mode by default
-  writeRegister(51, 0); // 0 = pulse injection, 1 = cosmic run, 2 = internal pulser, 3 = none
+  // cosmic running by default
+  writeRegister(51, 1); // 0 = pulse injection, 1 = cosmic run, 2 = internal pulser, 3 = none
 
   // event start and loopback delay
   writeRegister(21, 0);
@@ -180,6 +180,9 @@ void ROCMobileSyncInterface::configure(void) try {
   }
   __FE_SS_THROW__;
 }
+
+//==================================================================================================
+void ROCMobileSyncInterface::reset() { writeRegister(0, 0); }
 
 //==================================================================================================
 bool ROCMobileSyncInterface::running(void) { return false; }
@@ -303,7 +306,13 @@ void ROCMobileSyncInterface::ResetHistograms(__ARGS__) {
 }
 
 //======================================================================================================
-void ROCMobileSyncInterface::Reset(__ARGS__) { writeRegister(0, 0); }
+void ROCMobileSyncInterface::Reset(__ARGS__) { reset(); }
+
+//======================================================================================================
+void ROCMobileSyncInterface::start(std::string) {
+  reset();
+  usleep(500000);
+}
 
 //======================================================================================================
 void ROCMobileSyncInterface::SelectiveReset(__ARGS__) {
