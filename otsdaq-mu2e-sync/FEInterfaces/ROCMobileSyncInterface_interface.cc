@@ -182,9 +182,7 @@ void ROCMobileSyncInterface::configure(void) try {
 }
 
 //==================================================================================================
-void ROCMobileSyncInterface::reset() {
-  writeRegister(0, 0);
-}
+void ROCMobileSyncInterface::reset() { writeRegister(0, 0); }
 
 //==================================================================================================
 bool ROCMobileSyncInterface::running(void) { return false; }
@@ -311,9 +309,7 @@ void ROCMobileSyncInterface::ResetHistograms(__ARGS__) {
 void ROCMobileSyncInterface::Reset(__ARGS__) { reset(); }
 
 //======================================================================================================
-void ROCMobileSyncInterface::start(std::string) {
-  reset();
-}
+void ROCMobileSyncInterface::start(std::string) { reset(); }
 
 //======================================================================================================
 void ROCMobileSyncInterface::SelectiveReset(__ARGS__) {
@@ -423,7 +419,5 @@ void ROCMobileSyncInterface::BERT(__ARGS__) {
       __GET_ARG_IN__("Loopback Mode (Default := false)", bool, false);
   getDTC()->WriteExtROCRegister(linkID_, 13, 5, loopbackModeEnabled, 0, 1000);
 }
-
-
 
 DEFINE_OTS_INTERFACE(ROCMobileSyncInterface)
