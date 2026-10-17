@@ -1,0 +1,50 @@
+#include "Offline/fcl/minimalMessageService.fcl"
+#include "Offline/fcl/standardServices.fcl"
+
+process_name : SyncAna
+
+source : {
+  module_type : RootInput
+  fileNames   : @nil
+}
+
+services : {
+	 @table::Services.Core
+}
+
+physics : {
+  analyzers : {
+    SyncAna : {
+      module_type : SyncAna
+      msdTag : MSDHitMaker
+      ehTag  : ProcessCFOData
+      ntupleHits : true
+      diagLevel : 0
+    }
+  }
+  producers : {
+    MSDHitMaker : {
+      module_type : MSDHitsFromDTCEvents
+      debugLevel : 0
+    }
+    ProcessCFOData : {
+    module_type : EventHeaderFromCFOFragment
+    cfoTag      : "fragmentAggregator:CFO"
+    createEWM   : true
+    diagLevel   : 0
+    }
+  }
+  TrigPath      : [ ProcessCFOData, MSDHitMaker ]
+  EndPath       : [ SyncAna  ]
+  trigger_paths : [ TrigPath ]
+  end_paths     : [ EndPath  ]
+}
+
+outputs : {
+  TriggerableOutput : {
+    module_type     : RootOutput
+    SelectEvents  : [ "Digitize:calo_cluster_50" ]
+    outputCommands  :   [ "keep *_*_*_*" ]
+    fileName        : "dig.owner.calo_cluster_50.Run1B.%6r_%8s.art"
+  }
+}
